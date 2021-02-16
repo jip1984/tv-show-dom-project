@@ -9,9 +9,16 @@
   </head>
 
   <body>
+    <nav class="nav-bar" id="nav-bar">
+      <select name="select" class="select" id="select">
+        <option value="first">Select episode</option>
+      </select>
+      <input type="text" name="search" class="form-control" type="text" placeholder="search for show" id="search">
+    </nav>
     <div id="root">
-    </div>
 
+    </div>
+    <p>The data used in this website has come from <a href="TVMaze.com">TVMaze.com</a></p>
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
     <script src="episodes.js"></script>
 
