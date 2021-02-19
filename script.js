@@ -1,13 +1,12 @@
 //You can edit ALL of the code here
 const searchBar = document.getElementById('search');
-const select = document.getElementById('select');
-const option = document.getElementById('option');
-const count = document.getElementById('count')
+const count = document.getElementById('count');
 const ul = document.createElement('ul');
 let allEpisodes;
 
+
 function setup() {
-   allEpisodes = getAllEpisodes();
+  allEpisodes = getAllEpisodes();
   // allEpisodes.forEach(el => {
   //   // console.log("el.name-", el.name);
   //   // console.log("el-", el);
@@ -23,40 +22,47 @@ function pad(num, size) {
 }
 
 //level 300
-// function displaySelect() {
- 
-//   let selectBar = document.getElementById('select');
+function createDropdown(allEpisodes) {
+  allEpisodes = getAllEpisodes();
+  const select = document.getElementById('select');
+  allEpisodes.forEach((episode) => {
+    let option = document.createElement('option');
+    option.innerHTML = `S${episode.season}E${episode.number} - ${episode.name}`;
+    select.appendChild(option);
+    option.value = episode.id;
 
-//   allEpisodes.forEach(elem => {
-//   let option = document.getElementById('option');
-//   option.innerText = `S${pad(elem.season, 2)}E${pad(elem.number,2)} - ${elem.name}`;
-//   selectBar.appendChild(option);
-  
-//   })
-// }
-// displaySelect();
-
-
-
-
+  });
+  select.addEventListener("change", (e) => {
+    let id = e.target.value;
+    let selectedEpisode = allEpisodes;
+    if (id !== "") {
+      selectedEpisode = allEpisodes.filter(ep => {
+        return ('' + ep.id) === id;
+      });
+    }
+    console.log(selectedEpisode);
+    makePageForEpisodes(selectedEpisode);
+  });
+}
+createDropdown();
 
 
 // level 200
-  searchBar.addEventListener('input', () => {
-    const term = searchBar.value.trim().toLowerCase();
-    const filterEpisodes = allEpisodes.filter(episode => {
-        if(episode.name.toLowerCase().includes(term)){
-            return true;
-        } else if(episode.summary.toLowerCase().includes(term)){
-          return true;
-        } else {
-            return false; 
-        }
-    });
+searchBar.addEventListener('input', () => {
+  const term = searchBar.value.trim().toLowerCase();
+  const filterEpisodes = allEpisodes.filter(episode => {
+    if (episode.name.toLowerCase().includes(term)) {
+      return true;
+    } else if (episode.summary.toLowerCase().includes(term)) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
-    makePageForEpisodes(filterEpisodes);
+  makePageForEpisodes(filterEpisodes);
 
-    count.innerText = `Displaying ${filterEpisodes.length}/${allEpisodes.length} episodes`;
+  count.innerText = `Displaying ${filterEpisodes.length}/${allEpisodes.length} episodes`;
 
 });
 
@@ -74,7 +80,7 @@ function makeOneEpisode(ep) {
   li.appendChild(h2);
   li.appendChild(img);
   li.appendChild(p);
- 
+
   return li;
 }
 
