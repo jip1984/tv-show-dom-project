@@ -1,9 +1,18 @@
 //You can edit ALL of the code here
-const serchBar = document.getElementById('search');
-const selectBar = document.getElementById('select');
+const searchBar = document.getElementById('search');
+const select = document.getElementById('select');
+const option = document.getElementById('option');
+const count = document.getElementById('count')
+const ul = document.createElement('ul');
+let allEpisodes;
 
 function setup() {
-  const allEpisodes = getAllEpisodes();
+   allEpisodes = getAllEpisodes();
+  // allEpisodes.forEach(el => {
+  //   // console.log("el.name-", el.name);
+  //   // console.log("el-", el);
+  //   // console.log("allEpisodes-", allEpisodes);
+  // });
   makePageForEpisodes(allEpisodes);
 }
 
@@ -13,6 +22,45 @@ function pad(num, size) {
   return num;
 }
 
+//level 300
+// function displaySelect() {
+ 
+//   let selectBar = document.getElementById('select');
+
+//   allEpisodes.forEach(elem => {
+//   let option = document.getElementById('option');
+//   option.innerText = `S${pad(elem.season, 2)}E${pad(elem.number,2)} - ${elem.name}`;
+//   selectBar.appendChild(option);
+  
+//   })
+// }
+// displaySelect();
+
+
+
+
+
+
+// level 200
+  searchBar.addEventListener('input', () => {
+    const term = searchBar.value.trim().toLowerCase();
+    const filterEpisodes = allEpisodes.filter(episode => {
+        if(episode.name.toLowerCase().includes(term)){
+            return true;
+        } else if(episode.summary.toLowerCase().includes(term)){
+          return true;
+        } else {
+            return false; 
+        }
+    });
+
+    makePageForEpisodes(filterEpisodes);
+
+    count.innerText = `Displaying ${filterEpisodes.length}/${allEpisodes.length} episodes`;
+
+});
+
+//level 100
 function makeOneEpisode(ep) {
   const li = document.createElement('li');
   const h2 = document.createElement('h2');
@@ -32,12 +80,11 @@ function makeOneEpisode(ep) {
 
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
-  const ul = document.createElement('ul');
+  ul.innerHTML = "";
   episodeList.forEach(function (ep) { ul.appendChild(makeOneEpisode(ep)) })
   rootElem.appendChild(ul);
 }
 
-let episodes = getAllEpisodes.name;
-console.log(episodes);
+
 
 window.onload = setup;
