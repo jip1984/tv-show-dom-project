@@ -9,22 +9,35 @@
   </head>
 
   <body>
-    <nav class="nav-bar" id="nav-bar">
+  <header>
+      <nav class="nav-bar" id="nav-bar"></nav>
+
+      <select name="select" class="select" id="select-show">
+        <option value="">Select Show</option>
+      </select>
+      
       <select name="select" class="select" id="select">
         <option value="">Select episode</option>
       </select>
-
-
-      <input type="text" name="search" class="form-control" type="text" placeholder="search for show" id="search">
+  
+      <input type="text" name="search" class="form-control" type="text" placeholder="search for episode" id="search">
       <span id="count"></span>
     </nav>
+    <!-- <img  class="logo" src="images/logo.png" alt="logo"> -->
+  </header>
+
     <div id="root">
 
     </div>
+
+
     <footer><p class="footer-text">The data used in this website has come from <a href="TVMaze.com">TVMaze.com</a></p></footer>
     
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
     <script src="episodes.js"></script>
+
+    <!-- Loads all shows -->
+    <script src="shows.js"></script>
 
     <!-- Loads YOUR javascript code -->
     <script src="script.js"></script>

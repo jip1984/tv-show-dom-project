@@ -1,25 +1,62 @@
 //You can edit ALL of the code here
+let root = document.getElementById('root');
 const searchBar = document.getElementById('search');
+const showSearh = document.getElementById('select-show');
 const count = document.getElementById('count');
 const ul = document.createElement('ul');
 let allEpisodes;
+let shows;
+
+
+
 
 
 function setup() {
-  allEpisodes = getAllEpisodes();
-  // allEpisodes.forEach(el => {
-  //   // console.log("el.name-", el.name);
-  //   // console.log("el-", el);
-  //   // console.log("allEpisodes-", allEpisodes);
-  // });
-  makePageForEpisodes(allEpisodes);
+  let root = document.getElementById('root');
+  shows = getAllShows();
+  makePageForShows(shows);
+  episodeSelect();
+
+
 }
+
+
+
+
+//this populates the episodes select box and gives them a clickable link
+function episodeSelect() {
+  const showSearch = document.getElementById('select-show');
+  let allShows = getAllShows();
+  allShows.forEach(show => {
+    let option = document.createElement('option');
+    option.innerHTML = `${show.name}`;
+    showSearch.appendChild(option);
+    option.value = show.id;
+  });
+
+  showSearch.addEventListener('change', function (e) {
+    let showId = e.target.value;
+    fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        let allEpisodes = data;
+        makePageForEpisodes(allEpisodes);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  })
+}
+
 
 function pad(num, size) {
   num = num.toString();
   while (num.length < size) num = "0" + num;
   return num;
 }
+
 
 //level 300
 function createDropdown(allEpisodes) {
@@ -39,8 +76,9 @@ function createDropdown(allEpisodes) {
       selectedEpisode = allEpisodes.filter(ep => {
         return ('' + ep.id) === id;
       });
+
     }
-    console.log(selectedEpisode);
+    // console.log(selectedEpisode);
     makePageForEpisodes(selectedEpisode);
   });
 }
@@ -70,7 +108,6 @@ searchBar.addEventListener('input', () => {
 function makeOneEpisode(ep) {
   const li = document.createElement('li');
   const h2 = document.createElement('h2');
-  // const h3 = document.createElement('h3');
   const img = document.createElement('img');
   const p = document.createElement('p');
   //const selectBar = document.getElementById('select');
@@ -91,6 +128,37 @@ function makePageForEpisodes(episodeList) {
   rootElem.appendChild(ul);
 }
 
+//this is to dispaly the shows when the user first loads the page up
+function displayShows(shows) {
+  // let showDiv = document.getElementById('root')
+  const li = document.createElement('li');
+  const h2 = document.createElement('h2');
+  const img = document.createElement('img');
+  const p = document.createElement('p');
+  h2.innerText = shows.name;
+  img.src = `${shows.image}`;
+  li.appendChild(h2);
+  li.appendChild(img);
+
+  return li;
+}
+
+//a function that makes a page for the shows
+function makePageForShows(shows) {
+  let root = document.getElementById('root');
+  let showAll = getAllShows();
+  // let shows = getAllShows();
+  ul.innerHTML = '';
+  showAll.forEach(show => { ul.appendChild(displayShows(show)) })
+  root.appendChild(ul);
+}
+
+
+
+
+
 
 
 window.onload = setup;
+
+

@@ -11,12 +11,29 @@ body{
   
 }
 
+header{
+  display: flex;
+  justify-content: center;
+}
+
+ /* .logo{
+  height: 70px;
+  width: 70px;
+  margin-left: 7rem; */
+  /* margin-bottom:3rem; */
+ 
+  /* margin-top: 5rem; */
+
+/* }  */
+
+/* .main-title{
+   margin-top: 1rem;
+   margin-left: 5rem;
+} */
+
 .nav-bar{
   display: flex;
   justify-content: center;
-
-
-
   
 }
 
@@ -31,6 +48,7 @@ body{
   box-shadow: 5px 10px 18px #888888;
   border-radius: 10px;
 }
+
 
 
 .form-control{
@@ -61,7 +79,7 @@ li {
   background-color: #ffff;
   border: 1px solid rgba(0,0,0,0.1);
   box-shadow: 5px 10px 18px #888888;
-  height: 650px;
+  height: auto;
   width: 450px;
   margin-bottom: 3rem;
   border-radius: 10px;
@@ -103,7 +121,7 @@ a{
 #count{
   font-size: 1.5rem;
   color: #888888;
-  margin-top: 2.1rem;
+  margin-top: 2.9rem;
   margin-left: 3rem;
 }
 
