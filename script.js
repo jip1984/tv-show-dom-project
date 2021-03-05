@@ -66,7 +66,9 @@ function homeBtn() {
   btn.addEventListener('click', () => {
     setup();
     const showSearch = document.getElementById('select-show');
+    const select = document.getElementById('select-episode');
     showSearch.value = '';
+    select.value = '';
 
   });
 }
