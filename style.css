@@ -31,10 +31,36 @@ header{
    margin-left: 5rem;
 } */
 
+.rating{
+  background-color: #333;
+  color: rgb(255, 255, 0);
+  border: 2px black solid;
+  border-radius: 10px;
+  padding: .5rem;
+}
+
 .nav-bar{
   display: flex;
   justify-content: center;
+  margin-bottom: .5rem;
   
+}
+
+#logo{
+position: relative;
+height: 70px;
+width: 70px;
+margin-right: 9rem;
+margin-top: .75rem;
+}
+
+#logo:hover{
+  cursor: pointer;
+}
+
+#logo:active {
+  transform: translate(-1%, 3px);
+   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15); 
 }
 
 .select{
@@ -42,7 +68,7 @@ header{
   font-size: 1.3rem;
   margin-top: 2rem;
   margin-right: 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width:200px;
   border: 1px solid rgba(0,0,0,0.1);
   box-shadow: 5px 10px 18px #888888;
@@ -54,7 +80,7 @@ header{
 .form-control{
   margin-top: 2rem;
   margin-left: 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 6px;
   border: 1px solid rgba(0,0,0,0.3);
   box-shadow: 5px 10px 18px #888888;
@@ -74,34 +100,60 @@ ul {
 }
 
 
+
+
 li {
-  
+  display: flex;
+  flex-direction: column;
+   align-items: center; 
   background-color: #ffff;
   border: 1px solid rgba(0,0,0,0.1);
   box-shadow: 5px 10px 18px #888888;
   height: auto;
-  width: 450px;
+  width: 40%;
   margin-bottom: 3rem;
   border-radius: 10px;
 }
+
+li:focus{
+  outline: none;
+}
+
+li:hover{
+  cursor: pointer;
+}
+
+li:active {
+  transform: translate(-1%, 3px);
+  /* box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15); */
+}
+
 
 
 h2{
   display: flex;
   justify-content: center;
-  font-size: .5;
-  border: 2px solid rgba(0,0,0,0.5);
+  color:rgb(255, 255, 0);
+  background-color: #333;
+  font-size: .75;
+  border: 2px solid rgba(0,0,0,0.5); 
   border-radius: 10px;
   padding: 1rem;
+  margin-top: 10%;
+  margin-bottom: 3rem;
   /* padding-left: 60px; */
   box-shadow: 5px 10px 18px rgba(0,0,0,0.1); */
+  
 }
 
 img{
- margin-top: 3rem;
- margin-left: 5rem;
+  /* margin-top: 3rem;  */
+ /* margin-left: 5rem; */
  align-items: center;
  border-radius: 10px;
+ height: 450px;
+ width: 300px;
+ object-fit: cover;
 }
 
 p{
@@ -120,9 +172,9 @@ a{
 
 #count{
   font-size: 1.5rem;
-  color: #888888;
-  margin-top: 2.9rem;
-  margin-left: 3rem;
+  color: #333;
+  margin-top: 2.5rem;
+  margin-left: 6rem;
 }
 
 

@@ -4,9 +4,9 @@ const searchBar = document.getElementById('search');
 const showSearh = document.getElementById('select-show');
 const count = document.getElementById('count');
 const ul = document.createElement('ul');
+let li;
 let allEpisodes;
 let shows;
-
 
 
 
@@ -14,16 +14,19 @@ let shows;
 function setup() {
   let root = document.getElementById('root');
   shows = getAllShows();
-  makePageForShows(shows);
+  makePageForShows();
   episodeSelect();
-
+  createDropdown();
+  homeBtn();
 
 }
 
 
 
 
-//this populates the episodes select box and gives them a clickable link
+
+
+//this populates the shows select box and gives them a clickable link
 function episodeSelect() {
   const showSearch = document.getElementById('select-show');
   let allShows = getAllShows();
@@ -41,34 +44,49 @@ function episodeSelect() {
         return response.json();
       })
       .then(data => {
-        let allEpisodes = data;
+        allEpisodes = data;
         makePageForEpisodes(allEpisodes);
+        createDropdown(allEpisodes);
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
       })
   })
 }
 
-
+//makes zero based display
 function pad(num, size) {
   num = num.toString();
   while (num.length < size) num = "0" + num;
   return num;
 }
 
-
-//level 300
-function createDropdown(allEpisodes) {
-  allEpisodes = getAllEpisodes();
-  const select = document.getElementById('select');
-  allEpisodes.forEach((episode) => {
-    let option = document.createElement('option');
-    option.innerHTML = `S${episode.season}E${episode.number} - ${episode.name}`;
-    select.appendChild(option);
-    option.value = episode.id;
+//make the logo clickable to return home
+function homeBtn() {
+  let btn = document.getElementById('logo');
+  btn.addEventListener('click', () => {
+    setup();
 
   });
+}
+
+//episodeSelect(allEpisodes) ; 
+//level 300
+function createDropdown(episodes) {
+  // allEpisodes = episodes;
+  // console.log(allEpisodes);
+  const select = document.getElementById('select-episode');
+  select.innerHTML = '';
+  if (allEpisodes && allEpisodes.length) {
+    allEpisodes.forEach((episode) => {
+      let option = document.createElement('option');
+      option.innerHTML = `S${pad(episode.season, 2)}E${pad(episode.number, 2)} - ${episode.name}`;
+      select.appendChild(option);
+      option.value = episode.id;
+
+    });
+  }
+
   select.addEventListener("change", (e) => {
     let id = e.target.value;
     let selectedEpisode = allEpisodes;
@@ -82,7 +100,7 @@ function createDropdown(allEpisodes) {
     makePageForEpisodes(selectedEpisode);
   });
 }
-createDropdown();
+
 
 
 // level 200
@@ -135,16 +153,30 @@ function displayShows(shows) {
   const h2 = document.createElement('h2');
   const img = document.createElement('img');
   const p = document.createElement('p');
+  const rating = document.createElement('p');
+  const status = document.createElement('p');
+  const genre = document.createElement('p');
+  const runtime = document.createElement('p');
   h2.innerText = shows.name;
-  img.src = `${shows.image}`;
+  img.src = shows.image?.medium;
+  p.innerHTML = shows.summary;
+  rating.innerHTML = `The Average user rating is: <span class="rating">${shows.rating.average}</span>`;
+  status.innerHTML = `Show status: ${shows.status}`;
+  genre.innerHTML = `Genre: ${shows.genres}`;
+  runtime.innerHTML = `Released: ${shows.premiered}`;
   li.appendChild(h2);
   li.appendChild(img);
+  li.appendChild(p);
+  li.appendChild(rating);
+  li.appendChild(status);
+  li.appendChild(genre);
+  li.appendChild(runtime);
 
   return li;
 }
 
 //a function that makes a page for the shows
-function makePageForShows(shows) {
+function makePageForShows() {
   let root = document.getElementById('root');
   let showAll = getAllShows();
   // let shows = getAllShows();
@@ -154,10 +186,18 @@ function makePageForShows(shows) {
 }
 
 
+//create modal for click on show card
+// function createModal(show) {
+//   const div = document.getElementById('modal');
+//   const h2 = document.createElement('h2');
+//   const p = document.createElement('p');
+//   h2.innerText = show.name;
+//   p.innerText = show.summary;
+//   div.appendChild(h2);
+//   div.appendChild(p);
+// }
 
-
-
-
+// li.onclick
 
 window.onload = setup;
 
