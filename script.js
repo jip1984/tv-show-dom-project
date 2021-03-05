@@ -2,14 +2,12 @@
 let root = document.getElementById('root');
 const searchBar = document.getElementById('search');
 const showSearh = document.getElementById('select-show');
+const showEpisode = document.getElementById('select-episode');
 const count = document.getElementById('count');
 const ul = document.createElement('ul');
 let li;
 let allEpisodes;
 let shows;
-
-
-
 
 function setup() {
   let root = document.getElementById('root');
@@ -20,8 +18,25 @@ function setup() {
   homeBtn();
 };
 
-// create a clickable show li to take to the episodes 
+//Get the button:
+let mybutton = document.getElementById("myBtn");
 
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () { scrollFunction() };
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
 
 
 
@@ -67,6 +82,7 @@ function homeBtn() {
     setup();
     const showSearch = document.getElementById('select-show');
     const select = document.getElementById('select-episode');
+
     showSearch.value = '';
     select.value = '';
 
@@ -216,7 +232,8 @@ function makePageForShows() {
 //   div.appendChild(p);
 // }
 
-// li.onclick
+// btn to scroll back to the top
+
 
 window.onload = setup;
 
