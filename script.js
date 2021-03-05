@@ -18,10 +18,9 @@ function setup() {
   episodeSelect();
   createDropdown();
   homeBtn();
+};
 
-}
-
-
+// create a clickable show li to take to the episodes 
 
 
 
@@ -66,6 +65,8 @@ function homeBtn() {
   let btn = document.getElementById('logo');
   btn.addEventListener('click', () => {
     setup();
+    const showSearch = document.getElementById('select-show');
+    showSearch.value = '';
 
   });
 }
@@ -164,6 +165,7 @@ function displayShows(shows) {
   status.innerHTML = `Show status: ${shows.status}`;
   genre.innerHTML = `Genre: ${shows.genres}`;
   runtime.innerHTML = `Released: ${shows.premiered}`;
+  li.value = shows.id;
   li.appendChild(h2);
   li.appendChild(img);
   li.appendChild(p);
@@ -171,6 +173,21 @@ function displayShows(shows) {
   li.appendChild(status);
   li.appendChild(genre);
   li.appendChild(runtime);
+  li.addEventListener('click', function (e) {
+    let showId = e.target.value;
+    fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        allEpisodes = data;
+        makePageForEpisodes(allEpisodes);
+        createDropdown(allEpisodes);
+      })
+      .catch(error => {
+        // console.log(error);
+      })
+  });
 
   return li;
 }
