@@ -60,25 +60,20 @@ function showSelect() {
 
   showSearch.addEventListener('change', function (e) {
     let showId = e.target.value;
-    if (showId === '') {
-      setup();
-    } else {
-      reset();
 
-      fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          allEpisodes = data;
-          makePageForEpisodes(allEpisodes);
-          createDropdown(allEpisodes);
-        })
-        .catch(error => {
-          // console.log(error);
-        })
-    }
-  })
+    fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        allEpisodes = data;
+        makePageForEpisodes(allEpisodes);
+        createDropdown(allEpisodes);
+      })
+      .catch(error => {
+        // console.log(error);
+      });
+  });
 }
 
 //makes zero based display
@@ -90,7 +85,7 @@ function pad(num, size) {
 
 //make the logo clickable to return home
 function homeBtn() {
-  let btn = document.querySelector('.home-btn');
+  let btn = document.querySelector('.logo');
   btn.addEventListener('click', () => {
     setup();
     const showSearch = document.getElementById('select-show');
@@ -107,7 +102,8 @@ function homeBtn() {
 function createDropdown(episodes) {
   // allEpisodes = episodes;
   // console.log(allEpisodes);
-  reset();
+  const select = document.getElementById('select-episode');
+  select.innerHTML = '';
   if (allEpisodes && allEpisodes.length) {
     allEpisodes.forEach((episode) => {
       let option = document.createElement('option');
@@ -278,5 +274,3 @@ function reset() {
 
 
 window.onload = setup;
-
-
