@@ -3,6 +3,8 @@ let root = document.getElementById('root');
 const searchBar = document.getElementById('search');
 const showSearh = document.getElementById('select-show');
 const showEpisode = document.getElementById('select-episode');
+//Get the button:
+let mybutton = document.getElementById("myBtn");
 const count = document.getElementById('count');
 const ul = document.createElement('ul');
 let li;
@@ -13,13 +15,12 @@ function setup() {
   let root = document.getElementById('root');
   shows = getAllShows();
   makePageForShows();
-  episodeSelect();
+  showSelect();
   createDropdown();
   homeBtn();
 };
 
-//Get the button:
-let mybutton = document.getElementById("myBtn");
+
 
 // When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function () { scrollFunction() };
@@ -38,11 +39,17 @@ function topFunction() {
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+// showOption.addEventListener('change', () => {
+//   makePageForShows();
+
+// });
+
 
 
 //this populates the shows select box and gives them a clickable link
-function episodeSelect() {
+function showSelect() {
   const showSearch = document.getElementById('select-show');
+  let showOption = document.getElementById('show-option');
   let allShows = getAllShows();
   allShows.forEach(show => {
     let option = document.createElement('option');
@@ -53,18 +60,24 @@ function episodeSelect() {
 
   showSearch.addEventListener('change', function (e) {
     let showId = e.target.value;
-    fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        allEpisodes = data;
-        makePageForEpisodes(allEpisodes);
-        createDropdown(allEpisodes);
-      })
-      .catch(error => {
-        // console.log(error);
-      })
+    if (showId === '') {
+      setup();
+    } else {
+      reset();
+
+      fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          allEpisodes = data;
+          makePageForEpisodes(allEpisodes);
+          createDropdown(allEpisodes);
+        })
+        .catch(error => {
+          // console.log(error);
+        })
+    }
   })
 }
 
@@ -77,7 +90,7 @@ function pad(num, size) {
 
 //make the logo clickable to return home
 function homeBtn() {
-  let btn = document.getElementById('logo');
+  let btn = document.querySelector('.home-btn');
   btn.addEventListener('click', () => {
     setup();
     const showSearch = document.getElementById('select-show');
@@ -94,8 +107,7 @@ function homeBtn() {
 function createDropdown(episodes) {
   // allEpisodes = episodes;
   // console.log(allEpisodes);
-  const select = document.getElementById('select-episode');
-  select.innerHTML = '';
+  reset();
   if (allEpisodes && allEpisodes.length) {
     allEpisodes.forEach((episode) => {
       let option = document.createElement('option');
@@ -135,11 +147,32 @@ searchBar.addEventListener('input', () => {
     }
   });
 
+
   makePageForEpisodes(filterEpisodes);
 
   count.innerText = `Displaying ${filterEpisodes.length}/${allEpisodes.length} episodes`;
 
 });
+
+
+searchBar.addEventListener('input', () => {
+  const term = searchBar.value.trim().toLowerCase();
+  const filterShows = allShows.filter(episode => {
+    if (shows.name.toLowerCase().includes(term)) {
+      return true;
+    } else if (shows.summary.toLowerCase().includes(term)) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  makePageForShows(filterShows);
+
+  count.innerText = `Displaying ${filterShows.length}/${allShows.length} shows`;
+
+});
+
 
 //level 100
 function makeOneEpisode(ep) {
@@ -184,6 +217,7 @@ function displayShows(shows) {
   genre.innerHTML = `Genre: ${shows.genres}`;
   runtime.innerHTML = `Released: ${shows.premiered}`;
   li.value = shows.id;
+  h2.value = shows.id;
   li.appendChild(h2);
   li.appendChild(img);
   li.appendChild(p);
@@ -191,8 +225,9 @@ function displayShows(shows) {
   li.appendChild(status);
   li.appendChild(genre);
   li.appendChild(runtime);
-  li.addEventListener('click', function (e) {
+  h2.addEventListener('click', function (e) {
     let showId = e.target.value;
+    console.log(showId);
     fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
       .then(response => {
         return response.json();
@@ -219,6 +254,13 @@ function makePageForShows() {
   showAll.forEach(show => { ul.appendChild(displayShows(show)) })
   root.appendChild(ul);
 }
+
+function reset() {
+  const select = document.getElementById('select-episode');
+  select.innerHTML = '';
+}
+
+
 
 
 //create modal for click on show card
